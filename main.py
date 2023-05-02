@@ -8,7 +8,7 @@ import requests
 secret_channel_key = 'c506ff3d57fca1998e50ea8076ef7afc27934f65'
 channel_id = '0de9c1dd-b5d8-4b38-bb7f-ef238bb3ca86'
 account_id = '7eb31c63-e74d-41cd-86f7-34c6265386f9'
-
+scope_id = 'scope_id'
 
 body = {
     'account_id': account_id,
@@ -30,5 +30,6 @@ headers = {
 }
 
 host = 'https://amojo.amocrm.ru'
-response = requests.post(host + f'/v2/origin/custom/{channel_id}/connect', headers=headers, data=request_body)
+response = requests.get(host + f'/v2/origin/custom/{scope_id}/chats/{2197909}/history',
+                        headers=headers, data=request_body)
 print(response.text)
