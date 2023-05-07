@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import time
 
 from flask import Flask, request
 import requests
@@ -13,7 +14,6 @@ token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 print(account_chat_id)
-used_message_ids = []
 
 def send_message(receiver_id: str, message: str):
     headers = {'X-Auth-Token': token}
@@ -34,9 +34,8 @@ def get_chat_history(receiver_id: str):
 def hello():
     global token
     d = request.form.to_dict()
-    if d['message[add][0][id]'] in used_message_ids:
+    if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
-    used_message_ids.append(d['message[add][0][id]'])
     print(d)
     receiver_id = d['message[add][0][chat_id]']
     while True:
