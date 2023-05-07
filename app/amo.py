@@ -12,21 +12,21 @@ dotenv.load_dotenv()
 token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
-headers = {'X-Auth-Token': token}
+
 used_message_ids = []
 
 def send_message(receiver_id: str, message: str):
+    headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
     requests.post(url, headers=headers, data=json.dumps({"text": message}))
 
 
 def get_chat_history(receiver_id: str):
+    headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/messages/{account_chat_id}/merge?stand=v15' \
           f'&offset=0&limit=100&chat_id%5B%5D={receiver_id}&get_tags=true&lang=ru'
-    print(headers)
     message_list = requests.get(url, headers=headers).json()
-    print(message_list, 'ml')
     return message_list['message_list']
 
 
