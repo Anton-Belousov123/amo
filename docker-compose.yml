@@ -1,24 +1,12 @@
-version: '3.8'
-
+version: '3.9'
 services:
-  bot:
-    image: "amo-crm-bot"
-    container_name: "amo-crm-bot-container"
+  flask_web:
+    container_name: flask_web_container
     build: .
     ports:
       - 8000:8000
-    working_dir: "/usr/src/app/amo/"
-    volumes:
-    - .:/usr/src/app/amo/
-    command: python3 -m main
-    restart: always
-    env_file:
-      - "misc/.env"
-    networks:
-    - amo_bot
-
+    restart: unless-stopped
 
 networks:
-  amo_bot:
+  backend:
     driver: bridge
-
