@@ -1,13 +1,17 @@
+import asyncio
 import json
+import os
+
 from flask import Flask, request
 import requests
-
+import dotenv
 import gpt
 
+dotenv.load_dotenv()
+
 app = Flask(__name__)
-account_chat_id = '7eb31c63-e74d-41cd-86f7-34c6265386f9'
-headers = {'X-Auth-Token': '19998763-dfbf-4b85-9f1e-a49315e5d2f0'}
-my_id = '9389b299-c47b-4607-aad1-3a7baa307bbd'
+account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
+headers = {'X-Auth-Token': os.getenv('ACCOUNT_AUTH_TOKEN')}
 
 
 def send_message(receiver_id: str, message: str):
@@ -29,10 +33,10 @@ def hello():
     receiver_id = d['message[add][0][chat_id]']
     chat_history = get_chat_history(receiver_id)
     prepared_request = gpt.prepare_request(chat_history)
-    message = gpt.get_answer(prepared_request)
+    loop = asyncio.get_event_loop()
+    message = await loop.run_in_executor(None, gpt.get_answer, prepared_request)
     send_message(receiver_id, message)
     return 'ok'
 
 
 app.run(host='0.0.0.0', debug=True, port=80)
-

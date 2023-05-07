@@ -1,3 +1,5 @@
+import os
+
 import openai
 
 import sheets
@@ -19,12 +21,13 @@ def prepare_request(amo_messages):
     messages.reverse()
     return messages
 
+
 def get_answer(messages: list):
     try:
-        openai.api_key = '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'
+        openai.api_key = os.getenv('CHAT_GPT_KEY')
         response = openai.ChatCompletion.create(
-          model="gpt-3.5-turbo",
-          messages=messages
+            model="gpt-3.5-turbo",
+            messages=messages
         )
         return response['choices'][0]['message']['content']
     except:
