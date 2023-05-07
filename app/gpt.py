@@ -3,7 +3,9 @@ import os
 import openai
 
 from app import sheets
+import dotenv
 
+dotenv.load_dotenv('misc/.env')
 
 def prepare_request(amo_messages):
     messages = []

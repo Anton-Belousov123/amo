@@ -7,16 +7,15 @@ import requests
 import dotenv
 from app import gpt, auth
 
-dotenv.load_dotenv()
+dotenv.load_dotenv('misc/.env')
 
 token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
-
+print(account_chat_id)
 used_message_ids = []
 
 def send_message(receiver_id: str, message: str):
-    token = '32566001-045e-4c8a-bc55-9460d6716356'
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
@@ -24,7 +23,6 @@ def send_message(receiver_id: str, message: str):
 
 
 def get_chat_history(receiver_id: str):
-    token = '32566001-045e-4c8a-bc55-9460d6716356'
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/messages/{account_chat_id}/merge?stand=v15' \
           f'&offset=0&limit=100&chat_id%5B%5D={receiver_id}&get_tags=true&lang=ru'
