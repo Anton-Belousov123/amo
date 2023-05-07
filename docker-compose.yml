@@ -6,7 +6,7 @@ services:
     container_name: "amo-crm-bot-container"
     build: .
     ports:
-      - 5000:5000
+      - 8000:8000
     working_dir: "/usr/src/app/amo/"
     volumes:
     - .:/usr/src/app/amo/
