@@ -4,11 +4,9 @@ services:
   bot:
     image: "amo-crm-bot"
     container_name: "amo-crm-bot-container"
-    stop_signal: SIGINT
-    build:
-      context: .
+    build: .
     ports:
-      - "8000:8000"
+      - 5000:5000
     working_dir: "/usr/src/app/amo/"
     volumes:
     - .:/usr/src/app/amo/

@@ -39,4 +39,4 @@ def hello():
     return 'ok'
 
 
-app.run(host='0.0.0.0', debug=True, port=80)
+app.run(host='0.0.0.0', debug=True, port=5000)
