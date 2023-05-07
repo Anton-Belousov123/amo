@@ -2,7 +2,7 @@ import os
 
 import openai
 
-import sheets
+from code import sheets
 
 
 def prepare_request(amo_messages):

@@ -5,7 +5,7 @@ import os
 from flask import Flask, request
 import requests
 import dotenv
-import gpt
+from code import gpt
 
 dotenv.load_dotenv()
 
