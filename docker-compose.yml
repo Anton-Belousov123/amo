@@ -6,14 +6,14 @@ services:
     container_name: "amo-crm-bot-container"
     stop_signal: SIGINT
     build:
-      context: .
-    working_dir: "/usr/src/app/amo/"
+      context: keys
+    working_dir: "/usr/src/app/amo/code"
     volumes:
     - .:/usr/src/app/amo/
-    command: python3 -m code.amo
+    command: python3 -m main
     restart: always
     env_file:
-      - ".env"
+      - "keys/.env"
     networks:
     - amo_bot
 
