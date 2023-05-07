@@ -7,7 +7,7 @@ services:
     stop_signal: SIGINT
     build:
       context: .
-    working_dir: "/usr/src/app/amo"
+    working_dir: "/usr/src/app/amo/"
     volumes:
     - .:/usr/src/app/amo
     command: python3 -m code/amo
