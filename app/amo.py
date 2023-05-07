@@ -5,13 +5,14 @@ import os
 from flask import Flask, request
 import requests
 import dotenv
-from app import gpt
+from app import gpt, auth
 
 dotenv.load_dotenv()
 
+token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
-headers = {'X-Auth-Token': os.getenv('ACCOUNT_AUTH_TOKEN')}
+headers = {'X-Auth-Token': token}
 
 
 def send_message(receiver_id: str, message: str):
@@ -29,13 +30,27 @@ def get_chat_history(receiver_id: str):
 
 @app.route('/', methods=["POST"])
 def hello():
+    global token
     d = request.form.to_dict()
     print(d)
     receiver_id = d['message[add][0][chat_id]']
-    chat_history = get_chat_history(receiver_id)
+    while True:
+        try:
+            chat_history = get_chat_history(receiver_id)
+        except:
+            token = auth.get_token()
+            continue
+        break
     prepared_request = gpt.prepare_request(chat_history)
     message = gpt.get_answer(prepared_request)
-    send_message(receiver_id, message)
+
+    while True:
+        try:
+            send_message(receiver_id, message)
+        except:
+            token = auth.get_token()
+            continue
+        break
     return 'ok'
 
 
