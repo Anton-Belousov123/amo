@@ -36,7 +36,8 @@ def hello():
     d = request.form.to_dict()
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
-    print(d, d['message[add][0][created_at]']), int(time.time())
+    print(d['message[add][0][created_at]'], int(time.time()))
+    print(d)
     receiver_id = d['message[add][0][chat_id]']
     while True:
         try:
