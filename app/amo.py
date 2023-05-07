@@ -13,7 +13,7 @@ token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 headers = {'X-Auth-Token': token}
-
+used_message_ids = []
 
 def send_message(receiver_id: str, message: str):
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
@@ -32,12 +32,16 @@ def get_chat_history(receiver_id: str):
 def hello():
     global token
     d = request.form.to_dict()
+    if d['message[add][0][id]'] in used_message_ids:
+        return 'ok'
+    used_message_ids.append(d['message[add][0][id]'])
     print(d)
     receiver_id = d['message[add][0][chat_id]']
     while True:
         try:
             chat_history = get_chat_history(receiver_id)
-        except:
+        except Exception as e:
+            print(e, 1)
             token = auth.get_token()
             continue
         break
@@ -47,7 +51,8 @@ def hello():
     while True:
         try:
             send_message(receiver_id, message)
-        except:
+        except Exception as e:
+            print(e, 2)
             token = auth.get_token()
             continue
         break
