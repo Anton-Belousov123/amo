@@ -30,11 +30,11 @@ def get_chat_history(receiver_id: str):
 @app.route('/', methods=["POST"])
 def hello():
     d = request.form.to_dict()
+    print(d)
     receiver_id = d['message[add][0][chat_id]']
     chat_history = get_chat_history(receiver_id)
     prepared_request = gpt.prepare_request(chat_history)
-    loop = asyncio.get_event_loop()
-    message = await loop.run_in_executor(None, gpt.get_answer, prepared_request)
+    message = gpt.get_answer(prepared_request)
     send_message(receiver_id, message)
     return 'ok'
 
