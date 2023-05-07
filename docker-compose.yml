@@ -10,7 +10,7 @@ services:
     working_dir: "/usr/src/app/amo/"
     volumes:
     - .:/usr/src/app/amo/
-    command: python3 -m code/amo
+    command: python3 -m main
     restart: always
     env_file:
       - "misc/.env"
