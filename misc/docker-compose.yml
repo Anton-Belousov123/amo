@@ -13,7 +13,7 @@ services:
     command: python3 -m code/amo
     restart: always
     env_file:
-      - "misc/.env"
+      - ".env"
     networks:
     - amo_bot
 
