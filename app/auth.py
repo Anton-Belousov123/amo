@@ -39,7 +39,7 @@ def get_token():
     except:
         time.sleep(3)
         return get_token()
+    print('New token:', token)
     return token
 
 
-get_token()
