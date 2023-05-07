@@ -6,7 +6,7 @@ services:
     container_name: "amo-crm-bot-container"
     stop_signal: SIGINT
     build:
-      context: misc
+      context: .
     working_dir: "/usr/src/app/amo/"
     volumes:
     - .:/usr/src/app/amo/
