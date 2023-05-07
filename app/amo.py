@@ -24,6 +24,7 @@ def send_message(receiver_id: str, message: str):
 def get_chat_history(receiver_id: str):
     url = f'https://amojo.amocrm.ru/messages/{account_chat_id}/merge?stand=v15' \
           f'&offset=0&limit=100&chat_id%5B%5D={receiver_id}&get_tags=true&lang=ru'
+    print(headers)
     message_list = requests.get(url, headers=headers).json()
     print(message_list, 'ml')
     return message_list['message_list']
