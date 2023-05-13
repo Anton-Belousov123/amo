@@ -40,8 +40,8 @@ def prepare_request(amo_messages):
 
 def get_answer(messages: list):
     print(messages)
-    #try:
-    if True:
+    try:
+    #if True:
         openai.api_key = os.getenv('CHAT_GPT_KEY')
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -50,6 +50,6 @@ def get_answer(messages: list):
         print(response, 'response')
         return response['choices'][0]['message']['content']
 
-    #except Exception as e:
-    #    print('Ошибка', e)
-    #    return get_answer(messages)
+    except Exception as e:
+        print('Ошибка', e)
+        return get_answer(messages)
