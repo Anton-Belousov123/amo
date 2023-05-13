@@ -33,7 +33,7 @@ def prepare_request(amo_messages):
         response.append(i)
     if len(response) == 1:
         response.append({"role": "user", "content": "Привет"})
-    return i
+    return response
 
 
 def get_answer(messages: list):
