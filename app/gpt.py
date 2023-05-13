@@ -31,8 +31,8 @@ def prepare_request(amo_messages):
             break
         response.append(i)
     if len(response) == 0:
-        response.append({'role': 'system', 'content': google_message})
         response.append({"role": "user", "content": "Привет"})
+        response.append({'role': 'system', 'content': google_message})
     response.reverse()
     print(response)
     return response
