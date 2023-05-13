@@ -25,7 +25,6 @@ def prepare_request(amo_messages):
         else:
             messages.append({"role": "user", "content": amo_message['text']})
     messages.append({'role': 'system', 'content': google_message})
-    messages.reverse()
     response = []
     for i in messages:
         if i['content'] == '/restart':
@@ -33,6 +32,7 @@ def prepare_request(amo_messages):
         response.append(i)
     if len(response) == 1:
         response.append({"role": "user", "content": "Привет"})
+    response.reverse()
     print(response)
     return response
 
