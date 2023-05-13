@@ -45,6 +45,7 @@ def get_answer(messages: list):
             model="gpt-3.5-turbo",
             messages=messages
         )
+        print(response)
         return response['choices'][0]['message']['content']
     except:
         return get_answer(messages)
