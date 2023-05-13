@@ -47,6 +47,6 @@ def get_answer(messages: list):
         )
         print(response, 'response')
         return response['choices'][0]['message']['content']
-    except:
-        print('Ошибка')
+    except Exception as e:
+        print('Ошибка', e)
         return get_answer(messages)
