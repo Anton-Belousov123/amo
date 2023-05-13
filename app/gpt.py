@@ -9,7 +9,12 @@ dotenv.load_dotenv('misc/.env')
 
 def prepare_request(amo_messages):
     messages = []
-    google_message = sheets.read_message_preview()
+    google_message = sheets.read_message_preview() + ". В твоем сообщении должен быть только ОДИН вопрос." \
+                                                     " Ответ должен быть строго в соответствии с лимитом " \
+                                                     "знаков который я указал. Ты не должен отправлять никакие свои варианты клиенту." \
+                                                     "Действуй строго в последовательности что я указал. Если ты не получил корректный ответ на вопрос, то задай его снова." \
+                                                     "Если ты уже задал все вопросы, то ответь спасибо, ожидайте ответа." \
+                                                     "Не говори никакую лишнюю информацию не входящую в сценарий!"
     text_length = len(google_message)
     for amo_message in amo_messages:
         if text_length + len(amo_message['text']) > 4000:
@@ -21,7 +26,14 @@ def prepare_request(amo_messages):
             messages.append({"role": "user", "content": amo_message['text']})
     messages.append({'role': 'system', 'content': google_message})
     messages.reverse()
-    return messages
+    response = []
+    for i in messages:
+        if i['content'] == '/restart':
+            break
+        response.append(i)
+    if len(response) == 1:
+        response.append({"role": "user", "content": "Привет"})
+    return i
 
 
 def get_answer(messages: list):
