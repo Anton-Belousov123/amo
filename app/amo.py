@@ -16,6 +16,7 @@ account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 print(account_chat_id)
 
 def send_message(receiver_id: str, message: str):
+    print(message, 'answer')
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
