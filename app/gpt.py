@@ -25,20 +25,11 @@ def prepare_request(amo_messages):
         else:
             messages.append({"role": "user", "content": amo_message['text']})
     messages.append({'role': 'system', 'content': google_message})
-    response = []
-    for i in messages:
-        if i['content'] == '/restart':
-            break
-        response.append(i)
-    if len(response) == 0:
-        response.append({'role': 'system', 'content': google_message})
-        response.append({"role": "user", "content": "Привет"})
-    response.reverse()
-    print(response)
-    return response
+    messages.reverse()
+    return messages
 
 
-def get_answer(messages: list):
+def     get_answer(messages: list):
     print(messages)
     try:
         openai.api_key = os.getenv('CHAT_GPT_KEY')
