@@ -39,6 +39,7 @@ def prepare_request(amo_messages):
 
 
 def get_answer(messages: list):
+    print(messages)
     try:
         openai.api_key = os.getenv('CHAT_GPT_KEY')
         response = openai.ChatCompletion.create(
