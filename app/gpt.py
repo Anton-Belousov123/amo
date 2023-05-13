@@ -30,7 +30,8 @@ def prepare_request(amo_messages):
         if i['content'] == '/restart':
             break
         response.append(i)
-    if len(response) == 1:
+    if len(response) == 0:
+        response.append({'role': 'system', 'content': google_message})
         response.append({"role": "user", "content": "Привет"})
     response.reverse()
     print(response)
