@@ -64,11 +64,13 @@ def prepare_request(amo_messages):
     messages.append({'role': 'system', 'content': rules})
 
     response = []
-    print(messages)
     for i in messages:
-        if i['content'] == '/restart':
-            break
-        response.append(i)
+        try:
+            if i['content'] == '/restart':
+                break
+            response.append(i)
+        except:
+            pass
     if len(response) == 0:
         response.append({"role": "user", "content": "Привет. Я новый клиент. Разговаривай со мной на моем языке"})
         response.append({'role': 'system', 'content': rules})
