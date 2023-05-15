@@ -11,7 +11,7 @@ dotenv.load_dotenv('misc/.env')
 def what_is_the_question(question, m):
     print(question)
     print(m)
-    task = [{'role': 'system', 'content': 'Есть текст. Твоя задача написать цифру, к которой относится данный вопрос.'
+    task = [{'role': 'system', 'content': 'НАПИШИ ТОЛЬКО ЦИФРУ!!! Есть текст. Твоя задача написать цифру, к которой относится данный вопрос.'
                                           f' Возможные варианты: 0 - {m[0]};'
                                           f'1 - {m[1]};'
                                           f'2 - {m[2]};'
@@ -21,22 +21,22 @@ def what_is_the_question(question, m):
                                           f'6 - {m[6]};'
              }]
     task.append({'role': 'user', 'content': question})
-    answer = get_answer(task, 1)
+    answer = get_answer(task, 10)
     while answer != '0' and answer != '1' and answer != '2' and answer != '3' and answer != '4' and answer != '5' and answer != '6':
-        answer = get_answer(task, 1)
+        answer = get_answer(task, 10)
     print('message id: ', answer)
     return int(answer)
 
 
 def is_answer_correct(question, answer):
-    task = [{'role': 'system', 'content': 'У тебя есть вопрос и ответ. Твоя задача сказать, является этот '
+    task = [{'role': 'system', 'content': 'НАПИШИ ТОЛЬКО ЦИФРУ!!! У тебя есть вопрос и ответ. Твоя задача сказать, является этот '
                                           'ответ корректным на данный вопрос (то есть что ответ совпадает по '
                                           'смыслу с вопросом). Если ответ корректен - выведи цифру 1, если нет - 0'}]
     task.append({'role': 'assistant', 'content': "Вопрос: " + question})
     task.append({'role': 'user', 'content': "Ответ: " + answer})
-    answer = get_answer(task, 1)
+    answer = get_answer(task, 10)
     while answer != '1' or answer != '0':
-        answer = get_answer(task, 1)
+        answer = get_answer(task, 10)
     print('is correct: ', answer)
     return int(answer)
 
@@ -72,7 +72,7 @@ def prepare_request(amo_messages):
         except:
             pass
     if len(response) == 0:
-        response.append({"role": "user", "content": "Привет. Я новый клиент. Разговаривай со мной на моем языке"})
+        response.append({"role": "user", "content": "Привет. Я новый клиент."})
         response.append({'role': 'system', 'content': rules})
         response.append({'role': 'system', 'content': messages[0]})
     response.reverse()
