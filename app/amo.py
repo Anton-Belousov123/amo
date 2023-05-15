@@ -44,6 +44,7 @@ def webapp():
 def hello():
     global token
     d = request.form.to_dict()
+    print(d)
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
