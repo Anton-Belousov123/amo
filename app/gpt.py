@@ -9,8 +9,6 @@ dotenv.load_dotenv('misc/.env')
 
 
 def what_is_the_question(question, m):
-    print(question)
-    print(m)
     task = [{'role': 'system', 'content': 'НАПИШИ ТОЛЬКО ЦИФРУ!!! Есть текст. Твоя задача написать цифру, к которой относится данный вопрос.'
                                           f' Возможные варианты: 0 - {m[0]};'
                                           f'1 - {m[1]};'
@@ -45,16 +43,21 @@ def is_answer_correct(question, answer):
 
 def prepare_request(amo_messages):
     messages = []
-    print(amo_messages[0]['text'], amo_messages[1]['text'])
+    print('Вопрос:', amo_messages[1]['text'])
+    print('Ответ:', amo_messages[0]['text'])
     rules, length, messages = sheets.read_message_preview()
     text_length = len(rules)
     if amo_messages[0]['text'] != '/restart':
         index = what_is_the_question(amo_messages[1]['text'], messages)
         status = is_answer_correct(amo_messages[1]['text'], amo_messages[0]['text'])
+        print('Ответ корректен:', bool(status))
+
         if status == 0 or index + 1 >= len(messages):
             messages.append({'role': 'system', 'content': messages[index]})
         else:
             messages.append({'role': 'system', 'content': messages[index + 1]})
+        print('Следующий вопрос:', messages[-1]['content'])
+
     for amo_message in amo_messages:
         if text_length + len(amo_message['text']) > 4000:
             break
@@ -78,7 +81,6 @@ def prepare_request(amo_messages):
         response.append({'role': 'system', 'content': rules})
         response.append({'role': 'system', 'content': messages[0]})
     response.reverse()
-    print(response)
     return response, length
 
 
@@ -92,10 +94,9 @@ def get_answer(messages: list, limit):
             messages=messages,
             max_tokens=int(limit)
         )
-        print(response['choices'][0]['message']['content'])
         if response['choices'][0]['message']['content'].count('?') > 1:
             return get_answer(messages, limit)
-
+        print('Ответ пользователю:', response['choices'][0]['message']['content'])
         return response['choices'][0]['message']['content']
 
     except Exception as e:
