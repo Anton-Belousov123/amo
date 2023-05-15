@@ -5,9 +5,9 @@ import datetime
 
 
 # Constants
-secret = 'c506ff3d57fca1998e50ea8076ef7afc27934f65'
-conversation_id = '9389b299-c47b-4607-aad1-3a7baa307bbd'
-scope_id = '0de9c1dd-b5d8-4b38-bb7f-ef238bb3ca86_7eb31c63-e74d-41cd-86f7-34c6265386f9'
+secret = '546583c5d9718c566b4408babcebaec818efa14d'
+conversation_id = '0a0cd598-3b2c-4e0c-8872-413844567e0a'
+scope_id = 'b0e8dd4d-959b-4e93-9eba-ac7341282f6b_3ffc2923-4767-42f6-aaf4-a83e8208e5a0'
 
 # Usable variables
 date = datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
@@ -26,8 +26,8 @@ signature = hmac.new(secret.encode('utf-8'), message, hashlib.sha1).hexdigest()
 headers = {
     'Date': date,
     'Content-Type': content_type,
-    'Content-MD5': check_sum.lower(),
-    'X-Signature': signature.lower(),
+    'Content-MD5': check_sum,
+    'X-Signature': signature,
 }
 response = requests.get(url=url, headers=headers)
 

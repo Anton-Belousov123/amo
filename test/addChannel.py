@@ -5,9 +5,9 @@ from datetime import datetime
 import requests
 
 
-secret_channel_key = 'c506ff3d57fca1998e50ea8076ef7afc27934f65'
-channel_id = '0de9c1dd-b5d8-4b38-bb7f-ef238bb3ca86'
-account_id = '7eb31c63-e74d-41cd-86f7-34c6265386f9'
+secret_channel_key = '546583c5d9718c566b4408babcebaec818efa14d'
+channel_id = 'b0e8dd4d-959b-4e93-9eba-ac7341282f6b'
+account_id = '3ffc2923-4767-42f6-aaf4-a83e8208e5a0'
 
 
 body = {
