@@ -53,7 +53,6 @@ def hello():
     receiver_id = d['message[add][0][chat_id]']
 
     if d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
-
         return 'ok'
 
 
