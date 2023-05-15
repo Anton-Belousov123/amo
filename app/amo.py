@@ -14,6 +14,8 @@ token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 print(account_chat_id)
+user_dict = {}
+
 
 def send_message(receiver_id: str, message: str):
     print(message, 'answer')
@@ -29,6 +31,7 @@ def get_chat_history(receiver_id: str):
           f'&offset=0&limit=100&chat_id%5B%5D={receiver_id}&get_tags=true&lang=ru'
     message_list = requests.get(url, headers=headers).json()
     return message_list['message_list']
+
 
 @app.route('/webapp', methods=["POST"])
 def webapp():
@@ -48,6 +51,12 @@ def hello():
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
+
+    if d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
+
+        return 'ok'
+
+
     while True:
         try:
             chat_history = get_chat_history(receiver_id)
