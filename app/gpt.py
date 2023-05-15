@@ -9,6 +9,8 @@ dotenv.load_dotenv('misc/.env')
 
 
 def what_is_the_question(question, m):
+    print(question)
+    print(m)
     task = [{'role': 'system', 'content': 'Есть текст. Твоя задача написать цифру, к которой относится данный вопрос.'
                                           f' Возможные варианты: 0 - {m[0]};'
                                           f'1 - {m[1]};'
