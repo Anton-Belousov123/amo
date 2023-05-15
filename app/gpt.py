@@ -97,7 +97,6 @@ def get_answer(messages: list, limit):
         )
         if response['choices'][0]['message']['content'].count('?') > 1:
             return get_answer(messages, limit)
-        print('Ответ пользователю:', response['choices'][0]['message']['content'])
         return response['choices'][0]['message']['content']
 
     except Exception as e:
