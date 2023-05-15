@@ -51,7 +51,9 @@ def prepare_request(amo_messages):
     text_length = len(rules)
     if amo_messages[0]['text'] != '/restart':
         index = what_is_the_question(amo_messages[1]['text'], messages)
-        status = is_answer_correct(amo_messages[1]['text'], amo_messages[0]['text'])
+        status = True
+        if index != 0:
+            status = is_answer_correct(amo_messages[1]['text'], amo_messages[0]['text'])
         print('Ответ корректен:', bool(status))
 
         if status == 0 or index + 1 >= len(messages):
