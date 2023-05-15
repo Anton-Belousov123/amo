@@ -45,7 +45,7 @@ def prepare_request(amo_messages):
     messages = []
     print(amo_messages[0]['text'], amo_messages[1]['text'])
     rules, length, messages = sheets.read_message_preview()
-    if amo_messages[0] != '/restart':
+    if amo_messages[0]['text'] != '/restart':
         index = what_is_the_question(amo_messages[1]['text'], messages)
         status = is_answer_correct(amo_messages[1]['text'], amo_messages[0]['text'])
         text_length = len(rules)
