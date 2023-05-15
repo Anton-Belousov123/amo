@@ -45,13 +45,14 @@ def prepare_request(amo_messages):
     messages = []
     print(amo_messages)
     rules, length, messages = sheets.read_message_preview()
-    index = what_is_the_question(amo_messages[1], messages)
-    status = is_answer_correct(amo_messages[1], amo_messages[0])
-    text_length = len(rules)
-    if status == 0 or index + 1 >= len(messages):
-        messages.append({'role': 'system', 'content': messages[index]})
-    else:
-        messages.append({'role': 'system', 'content': messages[index + 1]})
+    if amo_messages[0] != '/restart':
+        index = what_is_the_question(amo_messages[1], messages)
+        status = is_answer_correct(amo_messages[1], amo_messages[0])
+        text_length = len(rules)
+        if status == 0 or index + 1 >= len(messages):
+            messages.append({'role': 'system', 'content': messages[index]})
+        else:
+            messages.append({'role': 'system', 'content': messages[index + 1]})
     for amo_message in amo_messages:
         if text_length + len(amo_message['text']) > 4000:
             break
