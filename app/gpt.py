@@ -71,7 +71,7 @@ def prepare_request(amo_messages):
         response.append({'role': 'system', 'content': messages[0]})
     response.reverse()
     print(response)
-    return response
+    return response, length
 
 
 def get_answer(messages: list, limit):

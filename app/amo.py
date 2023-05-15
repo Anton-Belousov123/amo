@@ -48,8 +48,8 @@ def hello():
             token = auth.get_token()
             continue
         break
-    prepared_request = gpt.prepare_request(chat_history)
-    message = gpt.get_answer(prepared_request)
+    prepared_request, limit = gpt.prepare_request(chat_history)
+    message = gpt.get_answer(prepared_request, limit)
 
     while True:
         try:
