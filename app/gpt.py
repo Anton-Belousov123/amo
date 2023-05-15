@@ -9,18 +9,19 @@ dotenv.load_dotenv('misc/.env')
 
 
 def what_is_the_question(question, m):
-    task = [{'role': 'system', 'content': 'НАПИШИ ТОЛЬКО ЦИФРУ!!! Есть текст. Твоя задача написать цифру, к которой относится данный вопрос.'
-                                          f' Возможные варианты: 0 - {m[0]};'
-                                          f'1 - {m[1]};'
-                                          f'2 - {m[2]};'
-                                          f'3 - {m[3]};'
-                                          f'4 - {m[4]};'
-                                          f'5 - {m[5]};'
-                                          f'6 - {m[6]};'
+    task = [{'role': 'system',
+             'content': 'Write only digit. (0 or 1 or 2 or 3 or 4 or 5 or 6). Your task is to classificate question in array of possible questions.'
+                        f' Возможные варианты: 0 - {m[0]};'
+                        f'1 - {m[1]};'
+                        f'2 - {m[2]};'
+                        f'3 - {m[3]};'
+                        f'4 - {m[4]};'
+                        f'5 - {m[5]};'
+                        f'6 - {m[6]};'
              }]
-    task.append({'role': 'user', 'content': question})
+    task.append({'role': 'user', 'content': "Question: " + question})
     answer = get_answer(task, 10)
-    while '0' not in answer and '1' not in answer and '2' not in answer and '3' not in answer\
+    while '0' not in answer and '1' not in answer and '2' not in answer and '3' not in answer \
             and '4' not in answer and '5' not in answer and '6' not in answer:
         answer = get_answer(task, 10)
     for i in range(7):
@@ -29,17 +30,18 @@ def what_is_the_question(question, m):
 
 
 def is_answer_correct(question, answer):
-    task = [{'role': 'system', 'content': 'НАПИШИ ТОЛЬКО ЦИФРУ!!! У тебя есть вопрос и ответ. Твоя задача сказать, является этот '
-                                          'ответ корректным на данный вопрос (то есть что ответ совпадает по '
-                                          'смыслу с вопросом). Если ответ корректен - выведи цифру 1, если нет - 0'}]
-    task.append({'role': 'assistant', 'content': "Вопрос: " + question})
-    task.append({'role': 'user', 'content': "Ответ: " + answer})
+    task = [{'role': 'system',
+             'content': 'Write only digit (0 or 1). You have Q&A. You task is to check, is answer is for this question (1) or not (0)'
+             }]
+    task.append({'role': 'assistant', 'content': "Question: " + question})
+    task.append({'role': 'user', 'content': "Answer: " + answer})
     answer = get_answer(task, 10)
     while '1' not in answer and '0' not in answer:
         answer = get_answer(task, 10)
     if '1' in answer:
         return 1
     return 0
+
 
 def prepare_request(amo_messages):
     messages = []
@@ -85,7 +87,6 @@ def prepare_request(amo_messages):
 
 
 def get_answer(messages: list, limit):
-    print(messages)
     try:
         # if True:
         openai.api_key = os.getenv('CHAT_GPT_KEY')
