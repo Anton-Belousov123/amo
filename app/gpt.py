@@ -31,7 +31,7 @@ def what_is_the_question(question, m):
 
 def is_answer_correct(question, answer):
     task = [{'role': 'system',
-             'content': 'Write only digit (0 or 1). You have Q&A. You task is to check, is answer is for this question (1) or not (0)'
+             'content': 'Write only digit (0 or 1). You have Q&A. You task is to check, is answer is possible for this question (1) or not (0). In question you should consider only the interrogative sentence.'
              }]
     task.append({'role': 'assistant', 'content': "Question: " + question})
     task.append({'role': 'user', 'content': "Answer: " + answer})
