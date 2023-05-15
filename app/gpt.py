@@ -64,6 +64,7 @@ def prepare_request(amo_messages):
     messages.append({'role': 'system', 'content': rules})
 
     response = []
+    print(messages)
     for i in messages:
         if i['content'] == '/restart':
             break
