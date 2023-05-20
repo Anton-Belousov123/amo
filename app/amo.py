@@ -22,8 +22,8 @@ def send_message(receiver_id: str, message: str):
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
-    requests.post(url, headers=headers, data=json.dumps({"text": message}))
-
+    response = requests.post(url, headers=headers, data=json.dumps({"text": message}))
+    print(response.text)
 
 def get_chat_history(receiver_id: str):
     headers = {'X-Auth-Token': token}
@@ -42,6 +42,9 @@ def webapp():
     receiver_id = d['message[add][0][chat_id]']
     print(receiver_id, 'rec-id')
 
+
+def translate_it(m):
+    print('yes translate me')
 
 @app.route('/', methods=["POST"])
 def hello():
@@ -63,6 +66,15 @@ def hello():
             token = auth.get_token()
             continue
         break
+    fl = False
+    alphabet = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
+                'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё',
+                'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
+                'ъ', 'ы', 'ь', 'э', 'ю', 'я']
+    for s in d['message[add][0][text]']:
+        if s in alphabet: fl = True
+    if not fl:
+        translate_it(d['message[add][0][text]'])
     prepared_request, limit = gpt.prepare_request(chat_history)
     message = gpt.get_answer(prepared_request, limit)
     while True:
@@ -74,14 +86,12 @@ def hello():
             continue
         break
 
-    alphabet = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
-                'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё',
-                'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
-                'ъ', 'ы', 'ь', 'э', 'ю', 'я']
+
     fl = False
     for s in message:
         if s in alphabet: fl = True
-
+    if not fl:
+        translate_it(message)
 
 
     return 'ok'
