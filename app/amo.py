@@ -67,7 +67,7 @@ def hello():
             chat_history = get_chat_history(receiver_id)
         except Exception as e:
             print(e, 1)
-            token, _ = auth.get_token()
+            token, headers = auth.get_token()
             continue
         break
     fl = False
