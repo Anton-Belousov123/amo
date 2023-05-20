@@ -35,10 +35,7 @@ def get_chat_history(receiver_id: str):
 def get_id(headers):
     url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
     response = requests.get(url, headers=headers)
-    with open('debug.html', 'w', encoding='UTF-8') as f:
-        f.write(response.text)
-    f.close()
-    print('SAVED!')
+
 
 @app.route('/webapp', methods=["POST"])
 def webapp():
@@ -57,6 +54,7 @@ def translate_it(m):
 def hello():
     global token
     d = request.form.to_dict()
+    print(d)
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
@@ -69,7 +67,7 @@ def hello():
             chat_history = get_chat_history(receiver_id)
         except Exception as e:
             print(e, 1)
-            token, headers = auth.get_token()
+            token, session = auth.get_token()
             continue
         break
     fl = False
@@ -88,11 +86,11 @@ def hello():
             send_message(receiver_id, message)
         except Exception as e:
             print(e, 2)
-            token, headers = auth.get_token()
+            token, session = auth.get_token()
             continue
         break
 
-    get_id(headers)
+    #    get_id(headers)
 
     fl = False
     for s in message:
