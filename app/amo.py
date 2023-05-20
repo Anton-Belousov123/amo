@@ -18,12 +18,11 @@ user_dict = {}
 
 
 def send_message(receiver_id: str, message: str):
-    print(message, 'answer')
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
     response = requests.post(url, headers=headers, data=json.dumps({"text": message}))
-    print(response.text)
+
 
 def get_chat_history(receiver_id: str):
     headers = {'X-Auth-Token': token}
@@ -32,6 +31,12 @@ def get_chat_history(receiver_id: str):
     message_list = requests.get(url, headers=headers).json()
     print(message_list)
     return message_list['message_list']
+
+
+def get_id(headers):
+    url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
+    response = requests.get(url, headers=headers)
+    print(response.text)
 
 
 @app.route('/webapp', methods=["POST"])
@@ -54,7 +59,6 @@ def hello():
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
-    print(d)
     if d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
         return 'ok'
 
@@ -64,7 +68,7 @@ def hello():
             chat_history = get_chat_history(receiver_id)
         except Exception as e:
             print(e, 1)
-            token = auth.get_token()
+            token, _ = auth.get_token()
             continue
         break
     fl = False
@@ -83,10 +87,11 @@ def hello():
             send_message(receiver_id, message)
         except Exception as e:
             print(e, 2)
-            token = auth.get_token()
+            token, headers = auth.get_token()
             continue
         break
 
+    get_id(headers)
 
     fl = False
     for s in message:

@@ -40,6 +40,6 @@ def get_token():
         time.sleep(3)
         return get_token()
     print('New token:', token)
-    return token
+    return token, headers
 
 
