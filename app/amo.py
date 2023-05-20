@@ -35,8 +35,10 @@ def get_chat_history(receiver_id: str):
 def get_id(headers):
     url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
     response = requests.get(url, headers=headers)
-    print(response.text)
-
+    with open('debug.html', 'w', encoding='UTF-8') as f:
+        f.write(response.text)
+    f.close()
+    print('SAVED!')
 
 @app.route('/webapp', methods=["POST"])
 def webapp():
