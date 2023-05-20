@@ -47,11 +47,10 @@ def webapp():
 def hello():
     global token
     d = request.form.to_dict()
-    print(d)
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
-
+    print(d)
     if d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
         return 'ok'
 
@@ -66,7 +65,6 @@ def hello():
         break
     prepared_request, limit = gpt.prepare_request(chat_history)
     message = gpt.get_answer(prepared_request, limit)
-
     while True:
         try:
             send_message(receiver_id, message)
@@ -75,6 +73,17 @@ def hello():
             token = auth.get_token()
             continue
         break
+
+    alphabet = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
+                'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё',
+                'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
+                'ъ', 'ы', 'ь', 'э', 'ю', 'я']
+    fl = False
+    for s in message:
+        if s in alphabet: fl = True
+
+
+
     return 'ok'
 
 
