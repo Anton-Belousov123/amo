@@ -3,10 +3,31 @@ import json
 import os
 import time
 
+import bs4
 from flask import Flask, request
 import requests
 import dotenv
 from app import gpt, auth
+
+
+def get_pipeline(image, s_name, text):
+    from app.auth import get_token
+    token, session = get_token()
+    url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
+
+    response = session.get(url, timeout=15)
+    soup = bs4.BeautifulSoup(response.text, features='html.parser')
+    for i in soup.find_all('div', {'class': 'pipeline-unsorted__item-data'}):
+        img = i.find('div', {'class': 'pipeline-unsorted__item-avatar'}). \
+            get('style').replace("background-image: url(", '').replace(')', '')
+
+        name = i.find('a', {'class': 'pipeline-unsorted__item-title'}).text
+        message = i.find('div', {'class': 'pipeline_leads__linked-entities_last-message__text'}).text
+        pipeline = i.find('a', {'class': 'pipeline-unsorted__item-title'}).get('href').split('/')[-1]
+        print(pipeline)
+        if (img == image) or (message == text and s_name == name):
+            return pipeline
+
 
 dotenv.load_dotenv('misc/.env')
 
@@ -55,6 +76,7 @@ def hello():
     global token
     d = request.form.to_dict()
     print(d)
+    return 'ok'
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
