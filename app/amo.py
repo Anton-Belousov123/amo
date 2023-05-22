@@ -76,6 +76,13 @@ def hello():
     global token
     d = request.form.to_dict()
     print(d)
+    if 'message[add][0][author][avatar_url]' not in d:
+        image = ''
+    else:
+        image = d['message[add][0][author][avatar_url]']
+    name = d['message[add][0][author][name]']
+    text = d['message[add][0][text]']
+    print(image, name, text)
     return 'ok'
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
