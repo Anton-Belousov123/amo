@@ -67,6 +67,19 @@ def webapp():
     print(receiver_id, 'rec-id')
 
 
+
+def send_notes(pipeline_id, session):
+    url = f'https://kevgenev8.amocrm.ru/private/notes/edit2.php?parent_element_id={pipeline_id}&parent_element_type=2'
+    data = {
+        'DATE_CREATE': int(time.time()),
+        'ACTION': 'ADD_NOTE',
+        'BODY': 'ааа',
+        'ELEMENT_ID': pipeline_id,
+        'ELEMENT_TYPE': '2'
+    }
+    resp = session.post(url, data=data)
+    print(resp.text)
+
 def translate_it(m):
     print('yes translate me')
 
@@ -80,7 +93,9 @@ def hello():
         image = d['message[add][0][author][avatar_url]']
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
-    print(get_pipeline(image, name, text))
+    pipeline = get_pipeline(image, name, text)
+    token, session = auth.get_token()
+    send_notes(pipeline, session)
     return 'ok'
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
