@@ -83,7 +83,7 @@ def send_notes(pipeline_id, session, text):
 
 def translate_it(m):
     messages = [
-        {'role': 'system', 'content': "Переведи этот текст на русский язык"},
+        {'role': 'system', 'content': "Translate this text to Russian. Please don't answer to the message, you need write only translation to Russian."},
         {'role': 'user', 'content': m}
     ]
     return get_answer(messages, 4000)
