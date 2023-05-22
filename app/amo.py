@@ -100,11 +100,6 @@ def hello():
         image = d['message[add][0][author][avatar_url]']
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
-    pipeline = get_pipeline(image, name, text)
-    translation = translate_it(text)
-    token, session = auth.get_token()
-    send_notes(pipeline, session, translation)
-    return 'ok'
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
@@ -127,7 +122,10 @@ def hello():
     for s in d['message[add][0][text]']:
         if s in alphabet: fl = True
     if not fl:
-        translate_it(d['message[add][0][text]'])
+        pipeline = get_pipeline(image, name, text)
+        translation = translate_it(text)
+        token, session = auth.get_token()
+        send_notes(pipeline, session, translation)
     prepared_request, limit = gpt.prepare_request(chat_history)
     message = gpt.get_answer(prepared_request, limit)
     while True:
@@ -145,7 +143,10 @@ def hello():
     for s in message:
         if s in alphabet: fl = True
     if not fl:
-        translate_it(message)
+        pipeline = get_pipeline(image, name, text)
+        translation = translate_it(message)
+        token, session = auth.get_token()
+        send_notes(pipeline, session, message)
 
     return 'ok'
 
