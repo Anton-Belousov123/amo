@@ -8,6 +8,7 @@ from flask import Flask, request
 import requests
 import dotenv
 from app import gpt, auth
+from app.gpt import get_answer
 
 
 def get_pipeline(image, s_name, text):
@@ -67,26 +68,32 @@ def webapp():
     print(receiver_id, 'rec-id')
 
 
-
-def send_notes(pipeline_id, session):
+def send_notes(pipeline_id, session, text):
     url = f'https://kevgenev8.amocrm.ru/private/notes/edit2.php?parent_element_id={pipeline_id}&parent_element_type=2'
     data = {
         'DATE_CREATE': int(time.time()),
         'ACTION': 'ADD_NOTE',
-        'BODY': 'ааа',
+        'BODY': text,
         'ELEMENT_ID': pipeline_id,
         'ELEMENT_TYPE': '2'
     }
     resp = session.post(url, data=data)
     print(resp.text)
 
+
 def translate_it(m):
-    print('yes translate me')
+    messages = [
+        {'role': 'system', 'content': "Переведи этот текст на русский язык"},
+        {'role': 'user', 'content': m}
+    ]
+    return get_answer(messages, 4000)
+
 
 @app.route('/', methods=["POST"])
 def hello():
     global token
     d = request.form.to_dict()
+    print(d)
     if 'message[add][0][author][avatar_url]' not in d:
         image = ''
     else:
@@ -94,15 +101,15 @@ def hello():
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
     pipeline = get_pipeline(image, name, text)
+    translation = translate_it(text)
     token, session = auth.get_token()
-    send_notes(pipeline, session)
+    send_notes(pipeline, session, translation)
     return 'ok'
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
     if d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
         return 'ok'
-
 
     while True:
         try:
@@ -139,7 +146,6 @@ def hello():
         if s in alphabet: fl = True
     if not fl:
         translate_it(message)
-
 
     return 'ok'
 
