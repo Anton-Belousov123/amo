@@ -145,7 +145,7 @@ def hello():
         pipeline = get_pipeline(image, name, text)
         translation = translate_it(message)
         token, session = auth.get_token()
-        send_notes(pipeline, session, message)
+        send_notes(pipeline, session, translation)
 
     return 'ok'
 
