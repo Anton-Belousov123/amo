@@ -27,7 +27,7 @@ def get_pipeline(image, s_name, text):
         pipeline = i.find('a', {'class': 'pipeline-unsorted__item-title'}).get('href').split('/')[-1]
         if (img == image) or (message == text and s_name == name):
             return pipeline
-
+    return None
 
 dotenv.load_dotenv('misc/.env')
 
@@ -99,6 +99,10 @@ def hello():
         image = d['message[add][0][author][avatar_url]']
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
+    pipeline = get_pipeline(image, name, text)
+    if pipeline is None:
+        print('Not this thread!')
+        return
     if int(d['message[add][0][created_at]']) + 10 < int(time.time()):
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
