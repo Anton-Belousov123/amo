@@ -23,6 +23,7 @@ def hello():
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
     pipeline = get_pipeline(image, name, text)
+    print(pipeline)
     if pipeline is None or int(d['message[add][0][created_at]']) + 10 < int(time.time()) or d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
         return 'ok'
     receiver_id = d['message[add][0][chat_id]']
