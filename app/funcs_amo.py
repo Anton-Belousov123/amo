@@ -17,7 +17,12 @@ def get_pipeline(image, s_name, text):
         'page': 2,
         'ELEMENT_COUNT': 10,
         'pipeline': 'Y',
-        'pipeline_id': 6731170
+        'pipeline_id': 6731170,
+        'LOST_ELEMENTS[56956546]': -10,
+        'LOST_ELEMENTS[56956550]': 10,
+        'LOST_ELEMENTS[56956554]': 10,
+        'LOST_ELEMENTS[56956558]': 10,
+        'LOST_ELEMENTS[56956562]': 10
     }
     response = session.post(url, timeout=15, data=data)
 
