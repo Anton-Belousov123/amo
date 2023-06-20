@@ -70,9 +70,9 @@ def send_message(receiver_id, message, account_chat_id, token):
             token, _ = auth.get_token()
             status_code = send_message_try(receiver_id, message, account_chat_id, token)
             print(status_code)
-            if status_code != 200:
-                exit(0)
         except Exception as e:
+            continue
+        if status_code != 200:
             continue
         break
     return token, message
