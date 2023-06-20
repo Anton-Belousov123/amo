@@ -16,7 +16,7 @@ account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 def hello():
     global token
     d = request.form.to_dict()
-    image = d.get('message[add][0][author][avatar_url]', default='')
+    image = d.get(__key='message[add][0][author][avatar_url]', default='')
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
     pipeline = get_pipeline(image, name, text)
