@@ -47,6 +47,7 @@ def prepare_request(amo_messages):
     messages = []
     print('Вопрос:', amo_messages[1]['text'])
     print('Ответ:', amo_messages[0]['text'])
+
     rules, length, messages = sheets.read_message_preview()
     text_length = len(rules)
     if amo_messages[0]['text'] != '/restart':

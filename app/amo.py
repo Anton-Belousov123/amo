@@ -37,10 +37,14 @@ def hello():
 
     token, session = auth.get_token()
     send_notes(pipeline, session, (deepl.translate_it(chat_history[0]['text'], 'RU'))[1])
+    print('Исходное сообщение переведено!')
+
 
     prepared_request, limit = gpt.prepare_request(chat_history)
     print(prepared_request)
     message = gpt.get_answer(prepared_request, limit)
+
+
 
     token, message = send_message(receiver_id, message, account_chat_id, token)
     send_notes(pipeline, session, (deepl.translate_it(message, 'RU'))[1])

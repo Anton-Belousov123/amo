@@ -19,4 +19,5 @@ def read_message_preview():
         sheet.cell(8, 2).value,
         sheet.cell(9, 2).value,
                 ]
+    print(rules, length, messages)
     return rules, length, messages
