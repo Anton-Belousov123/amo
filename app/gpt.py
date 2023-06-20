@@ -2,7 +2,7 @@ import os
 
 import openai
 
-from app import sheets
+from app import sheets, deepl
 import dotenv
 
 dotenv.load_dotenv('misc/.env')
@@ -20,10 +20,10 @@ def what_is_the_question(question, m):
                         f'6 - {m[6]};'
              }]
     task.append({'role': 'user', 'content': "Question: " + question})
-    answer = get_answer(task, 10)
+    answer = get_answer(task, 3)
     while '0' not in answer and '1' not in answer and '2' not in answer and '3' not in answer \
             and '4' not in answer and '5' not in answer and '6' not in answer:
-        answer = get_answer(task, 10)
+        answer = get_answer(task, 3)
     for i in range(7):
         if str(i) in answer:
             return i
@@ -35,9 +35,9 @@ def is_answer_correct(question, answer):
              }]
     task.append({'role': 'assistant', 'content': "Question: " + question})
     task.append({'role': 'user', 'content': "Answer: " + answer})
-    answer = get_answer(task, 10)
+    answer = get_answer(task, 3)
     while '1' not in answer and '0' not in answer:
-        answer = get_answer(task, 10)
+        answer = get_answer(task, 3)
     if '1' in answer:
         return 1
     return 0
@@ -89,6 +89,9 @@ def prepare_request(amo_messages):
 
 
 def get_answer(messages: list, limit):
+    l, t = deepl.translate_it(str(messages), 'EN')
+    print(t)
+    exit(0)
     try:
         # if True:
         openai.api_key = os.getenv('CHAT_GPT_KEY')
