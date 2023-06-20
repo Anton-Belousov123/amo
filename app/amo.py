@@ -16,6 +16,7 @@ account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
 def hello():
     global token
     d = request.form.to_dict()
+    print('Новое сообщение!')
     try:
         image = d['message[add][0][author][avatar_url]']
     except:
@@ -23,12 +24,15 @@ def hello():
     name = d['message[add][0][author][name]']
     text = d['message[add][0][text]']
     pipeline = get_pipeline(image, name, text)
-    print(pipeline, 'pipeline')
     if pipeline is None or int(d['message[add][0][created_at]']) + 10 < int(time.time()) or d['message[add][0][text]'] == 'Зарегистрироваться в WebApp':
+        print('Не удалось идентифицировать пользователя!')
         return 'ok'
+    print('Пользователь идентифицирован!')
     receiver_id = d['message[add][0][chat_id]']
     token, chat_history = get_chat_history(receiver_id, token, account_chat_id)
+    print("История сообщений получена!")
     lang, text = deepl.translate_it(str(chat_history), 'EN')
+    print('История сообщений переведена!')
     print(text)
     return
 
