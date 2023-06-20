@@ -65,17 +65,3 @@ def get_chat_history(receiver_id, token, account_chat_id):
         break
     return token, chat_history
 
-
-def send_message(receiver_id, message, account_chat_id, token):
-    while True:
-        try:
-            token, session = auth.get_token()
-            status_code = send_message_try(receiver_id, message, account_chat_id, token)
-            print(status_code)
-        except Exception as e:
-            print(e, 'error')
-            continue
-        if status_code != 200:
-            continue
-        break
-    return token, message

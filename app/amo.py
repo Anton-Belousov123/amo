@@ -1,14 +1,24 @@
+import json
 import os
 import time
+
+import requests
 from flask import Flask, request
 import dotenv
 from app import gpt, auth, deepl
-from app.funcs_amo import get_pipeline, get_chat_history, send_notes, send_message
+from app.funcs_amo import get_pipeline, get_chat_history, send_notes
 
 dotenv.load_dotenv('misc/.env')
 token = ''
 app = Flask(__name__)
 account_chat_id = os.getenv('ACCOUNT_CHAT_ID')
+
+
+def send_message(receiver_id: str, message: str):
+    headers = {'X-Auth-Token': token}
+    url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
+          f'{receiver_id}/messages?with_video=true&stand=v15'
+    response = requests.post(url, headers=headers, data=json.dumps({"text": message}))
 
 
 @app.route('/', methods=["POST"])
@@ -44,7 +54,15 @@ def hello():
 
     message = gpt.get_answer(prepared_request, limit)
 
-    token, message = send_message(receiver_id, message, account_chat_id, token)
+    while True:
+        try:
+            send_message(receiver_id, message)
+        except Exception as e:
+            print(e, 2)
+            token, session = auth.get_token()
+            continue
+        break
+
     send_notes(pipeline, session, (deepl.translate_it(message, 'RU'))[1])
     return 'ok'
 
