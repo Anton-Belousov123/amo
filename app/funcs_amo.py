@@ -19,7 +19,10 @@ def get_pipeline(image, s_name, text):
         'pipeline': 'Y',
         'pipeline_id': 6731170
     }
-    response = session.post(url, timeout=15, data=data).json()['items']
+    response = session.post(url, timeout=15, data=data)
+
+    print(response.text)
+    response = response.json()['items']
 
     for i in response['items']:
         img = i['source_data']['client']['picture']
