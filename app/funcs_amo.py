@@ -26,12 +26,13 @@ def get_pipeline(image, s_name, text):
     return None
 
 
-def send_message_try(receiver_id: str, message: str, token, account_chat_id, session):
+def send_message_try(receiver_id: str, message: str, token, account_chat_id):
+    print(receiver_id, message, token, account_chat_id)
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
 
-    resp = session.post(url, headers=headers, data=json.dumps({"text": message}))
+    resp = requests.post(url, headers=headers, data=json.dumps({"text": message}))
     return resp.status_code
 
 def get_chat_history_try(receiver_id: str, token, account_chat_id):
