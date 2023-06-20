@@ -45,6 +45,7 @@ def is_answer_correct(question, answer):
 
 def prepare_request(amo_messages):
     messages = []
+    print(amo_messages)
     print('Вопрос:', amo_messages[1]['text'])
     print('Ответ:', amo_messages[0]['text'])
 
