@@ -41,7 +41,7 @@ def hello():
 
 
     prepared_request, limit = gpt.prepare_request(chat_history)
-    print(prepared_request)
+    print("Request:", prepared_request)
     message = gpt.get_answer(prepared_request, limit)
 
 

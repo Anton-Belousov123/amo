@@ -44,7 +44,7 @@ def is_answer_correct(question, answer):
 
 
 def prepare_request(amo_messages):
-    messages = []
+
     print('Вопрос:', amo_messages[1]['text'])
     print('Ответ:', amo_messages[0]['text'])
 
@@ -64,7 +64,7 @@ def prepare_request(amo_messages):
         print('Следующий вопрос:', messages[-1]['content'])
 
     for amo_message in amo_messages:
-        if text_length + len(amo_message['text']) > 4000:
+        if text_length + len(amo_message['text']) > 2500:
             break
         text_length += len(amo_message['text'])
         if amo_message['author']['id'] == '6bbb0237-32bc-4b1f-bcd5-411574e8912c':
