@@ -59,7 +59,6 @@ def get_chat_history(receiver_id, token, account_chat_id):
         try:
             chat_history = get_chat_history_try(receiver_id, token, account_chat_id)
         except Exception as e:
-            print(e, 1)
             token, _ = auth.get_token()
             continue
         break
