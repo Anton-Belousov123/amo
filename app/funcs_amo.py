@@ -73,6 +73,7 @@ def send_message(receiver_id, message, account_chat_id, token):
             status_code = send_message_try(receiver_id, message, account_chat_id, token, session)
             print(status_code)
         except Exception as e:
+            print(e, 'error')
             continue
         if status_code != 200:
             continue
