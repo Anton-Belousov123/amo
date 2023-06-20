@@ -21,6 +21,7 @@ def get_pipeline(image, s_name, text):
         name = i.find('a', {'class': 'pipeline-unsorted__item-title'}).text
         message = i.find('div', {'class': 'pipeline_leads__linked-entities_last-message__text'}).text
         pipeline = i.find('a', {'class': 'pipeline-unsorted__item-title'}).get('href').split('/')[-1]
+        print(img, name, message)
         if (img == image) or (message == text and s_name == name):
             return pipeline
     return None
