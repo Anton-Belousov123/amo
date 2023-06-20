@@ -30,8 +30,8 @@ def send_message_try(receiver_id: str, message: str, token, account_chat_id):
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
-    requests.post(url, headers=headers, data=json.dumps({"text": message}))
-
+    resp = requests.post(url, headers=headers, data=json.dumps({"text": message}))
+    print(resp)
 
 def get_chat_history_try(receiver_id: str, token, account_chat_id):
     headers = {'X-Auth-Token': token}
@@ -51,7 +51,6 @@ def send_notes(pipeline_id, session, text):
         'ELEMENT_TYPE': '2'
     }
     resp = session.post(url, data=data)
-    print(resp.text)
 
 
 def get_chat_history(receiver_id, token, account_chat_id):
