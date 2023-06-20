@@ -24,7 +24,7 @@ def get_pipeline(image, s_name, text):
         'LOST_ELEMENTS[56956558]': 10,
         'LOST_ELEMENTS[56956562]': 10
     }
-    response = session.post(url, timeout=15, data=data)
+    response = session.post(url, timeout=15, data=json.dumps(data))
 
     print(response.text)
     response = response.json()['items']
