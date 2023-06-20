@@ -30,6 +30,7 @@ def hello():
     print('Пользователь идентифицирован!')
     receiver_id = d['message[add][0][chat_id]']
     token, chat_history = get_chat_history(receiver_id, token, account_chat_id)
+    print(chat_history)
     print("История сообщений получена!")
     lang, text = deepl.translate_it(str(chat_history), 'EN')
     print('История сообщений переведена!')
