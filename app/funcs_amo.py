@@ -31,7 +31,7 @@ def send_message_try(receiver_id: str, message: str, token, account_chat_id):
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
     resp = requests.post(url, headers=headers, data=json.dumps({"text": message}))
-    print(resp)
+    return resp.status_code
 
 def get_chat_history_try(receiver_id: str, token, account_chat_id):
     headers = {'X-Auth-Token': token}
@@ -67,10 +67,12 @@ def get_chat_history(receiver_id, token, account_chat_id):
 def send_message(receiver_id, message, account_chat_id, token):
     while True:
         try:
-            send_message_try(receiver_id, message, account_chat_id, token)
-        except Exception as e:
-            print('error', e)
             token, _ = auth.get_token()
+            status_code = send_message_try(receiver_id, message, account_chat_id, token)
+            print(status_code)
+            if status_code != 200:
+                exit(0)
+        except Exception as e:
             continue
         break
     return token, message
