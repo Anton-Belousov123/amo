@@ -70,7 +70,7 @@ def send_message(receiver_id, message, account_chat_id, token):
     while True:
         try:
             token, session = auth.get_token()
-            status_code = send_message_try(receiver_id, message, account_chat_id, token, session)
+            status_code = send_message_try(receiver_id, message, account_chat_id, token)
             print(status_code)
         except Exception as e:
             print(e, 'error')
