@@ -10,17 +10,23 @@ from app import auth
 def get_pipeline(image, s_name, text):
     from app.auth import get_token
     token, session = get_token()
-    url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
+    url = 'https://kevgenev8.amocrm.ru/ajax/leads/multiple/loadmore/?skip_filter=Y'
     print(image, s_name, text)
-    response = session.get(url, timeout=15)
-    soup = bs4.BeautifulSoup(response.text, features='html.parser')
-    for i in soup.find_all('div', {'class': 'pipeline-unsorted__item-data'}):
-        img = i.find('div', {'class': 'pipeline-unsorted__item-avatar'}). \
-            get('style').replace("background-image: url(", '').replace(')', '')
+    data = {
+        'json': 'true',
+        'page': 1,
+        'ELEMENT_COUNT': 1000000,
+        'pipeline': 'Y',
+        'pipeline_id': 6731170
+    }
+    response = session.post(url, timeout=15, data=data).json()['items']
 
-        name = i.find('a', {'class': 'pipeline-unsorted__item-title'}).text
-        message = i.find('div', {'class': 'pipeline_leads__linked-entities_last-message__text'}).text
-        pipeline = i.find('a', {'class': 'pipeline-unsorted__item-title'}).get('href').split('/')[-1]
+    for i in response['items']:
+        img = i['source_data']['client']['picture']
+        name = i['source_data']['client']['name']
+        message = i['source_data'][0]['text']
+        print(img, name, message)
+        pipeline = i['id']
         print(img, name, message)
         if (img == image) or (message == text and s_name == name):
             return pipeline
