@@ -11,7 +11,7 @@ dotenv.load_dotenv('misc/.env')
 def what_is_the_question(question, m):
     task = [{'role': 'system',
              'content': 'Write only digit. (0 or 1 or 2 or 3 or 4 or 5 or 6). Your task is to classificate question in array of possible questions.'
-                        f' Возможные варианты: 0 - {m[0]};'
+                        f' Possible answers: 0 - {m[0]};'
                         f'1 - {m[1]};'
                         f'2 - {m[2]};'
                         f'3 - {m[3]};'
@@ -20,10 +20,10 @@ def what_is_the_question(question, m):
                         f'6 - {m[6]};'
              }]
     task.append({'role': 'user', 'content': "Question: " + question})
-    answer = get_answer(task, 10)
+    answer = get_answer(task, 3)
     while '0' not in answer and '1' not in answer and '2' not in answer and '3' not in answer \
             and '4' not in answer and '5' not in answer and '6' not in answer:
-        answer = get_answer(task, 10)
+        answer = get_answer(task, 3)
     for i in range(7):
         if str(i) in answer:
             return i
@@ -35,9 +35,9 @@ def is_answer_correct(question, answer):
              }]
     task.append({'role': 'assistant', 'content': "Question: " + question})
     task.append({'role': 'user', 'content': "Answer: " + answer})
-    answer = get_answer(task, 10)
+    answer = get_answer(task, 3)
     while '1' not in answer and '0' not in answer:
-        answer = get_answer(task, 10)
+        answer = get_answer(task, 3)
     if '1' in answer:
         return 1
     return 0
@@ -81,7 +81,7 @@ def prepare_request(amo_messages):
         except:
             pass
     if len(response) == 0:
-        response.append({"role": "user", "content": "Привет. Я новый клиент."})
+        response.append({"role": "user", "content": "Hello. I'm new client!"})
         response.append({'role': 'system', 'content': rules})
         response.append({'role': 'system', 'content': messages[0]})
     response.reverse()

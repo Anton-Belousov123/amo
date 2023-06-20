@@ -3,8 +3,7 @@ import time
 from flask import Flask, request
 import dotenv
 from app import gpt, auth, deepl
-from app.funcs_amo import get_pipeline, get_chat_history
-
+from app.funcs_amo import get_pipeline, get_chat_history, send_notes, send_message
 
 dotenv.load_dotenv('misc/.env')
 token = ''
@@ -30,43 +29,21 @@ def hello():
     print('Пользователь идентифицирован!')
     receiver_id = d['message[add][0][chat_id]']
     token, chat_history = get_chat_history(receiver_id, token, account_chat_id)
-    print(chat_history)
     print("История сообщений получена!")
-    lang, text = deepl.translate_it(str(chat_history), 'EN')
-    print('История сообщений переведена!')
-    print(text)
-    return
+    #lang, text = deepl.translate_it(str(chat_history), 'EN')
+    #print('История сообщений переведена!')
+    #print(text)
+    #return
 
-
-
-
-
-
-
-
-
-
-
-
-    translation = translate_it(text)
     token, session = auth.get_token()
-    send_notes(pipeline, session, translation)
+    send_notes(pipeline, session, (deepl.translate_it(chat_history[0]['text'], 'RU'))[1])
+
     prepared_request, limit = gpt.prepare_request(chat_history)
+    print(prepared_request)
     message = gpt.get_answer(prepared_request, limit)
-    while True:
-        try:
-            send_message(receiver_id, message)
-        except Exception as e:
-            print(e, 2)
-            token, session = auth.get_token()
-            continue
-        break
 
-    if not fl:
-        translation = translate_it(message)
-        token, session = auth.get_token()
-        send_notes(pipeline, session, translation)
-
+    token, message = send_message(receiver_id, message, account_chat_id, token)
+    send_notes(pipeline, session, (deepl.translate_it(message, 'RU'))[1])
     return 'ok'
 
 app.run(host='0.0.0.0', debug=True, port=8000)
