@@ -26,11 +26,12 @@ def get_pipeline(image, s_name, text):
     return None
 
 
-def send_message_try(receiver_id: str, message: str, token, account_chat_id):
+def send_message_try(receiver_id: str, message: str, token, account_chat_id, session):
     headers = {'X-Auth-Token': token}
     url = f'https://amojo.amocrm.ru/v1/chats/{account_chat_id}/' \
           f'{receiver_id}/messages?with_video=true&stand=v15'
-    resp = requests.post(url, headers=headers, data=json.dumps({"text": message}))
+
+    resp = session.post(url, headers=headers, data=json.dumps({"text": message}))
     return resp.status_code
 
 def get_chat_history_try(receiver_id: str, token, account_chat_id):
@@ -67,8 +68,8 @@ def get_chat_history(receiver_id, token, account_chat_id):
 def send_message(receiver_id, message, account_chat_id, token):
     while True:
         try:
-            token, _ = auth.get_token()
-            status_code = send_message_try(receiver_id, message, account_chat_id, token)
+            token, session = auth.get_token()
+            status_code = send_message_try(receiver_id, message, account_chat_id, token, session)
             print(status_code)
         except Exception as e:
             continue
