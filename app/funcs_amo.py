@@ -14,8 +14,8 @@ def get_pipeline(image, s_name, text):
     print(image, s_name, text)
     data = {
         'json': 'true',
-        'page': 1,
-        'ELEMENT_COUNT': 1000000,
+        'page': 2,
+        'ELEMENT_COUNT': 10,
         'pipeline': 'Y',
         'pipeline_id': 6731170
     }
