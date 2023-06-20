@@ -103,5 +103,4 @@ def get_answer(messages: list, limit):
         return response['choices'][0]['message']['content']
 
     except Exception as e:
-        print('Ошибка', e)
         return get_answer(messages, limit)

@@ -70,8 +70,8 @@ def send_message(receiver_id, message, account_chat_id, token):
         try:
             send_message_try(receiver_id, message, account_chat_id, token)
         except Exception as e:
-            print(e, 2)
-            token, session = auth.get_token()
+            print('error', e)
+            token, _ = auth.get_token()
             continue
         break
     return token, message
