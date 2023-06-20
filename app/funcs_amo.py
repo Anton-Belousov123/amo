@@ -11,7 +11,7 @@ def get_pipeline(image, s_name, text):
     from app.auth import get_token
     token, session = get_token()
     url = 'https://kevgenev8.amocrm.ru/leads/pipeline/6731170/?skip_filter=Y'
-
+    print(image, s_name, text)
     response = session.get(url, timeout=15)
     soup = bs4.BeautifulSoup(response.text, features='html.parser')
     for i in soup.find_all('div', {'class': 'pipeline-unsorted__item-data'}):
